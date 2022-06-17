@@ -25,6 +25,8 @@ RUN mkdir /data && cp /build/deploy/cortex-tenant.yml /data/cortex-tenant.yml
 
 FROM scratch
 
+LABEL org.opencontainers.image.source="https://github.com/nefeli/cortex-tenant"
+
 ENV CONFIG_FILE /data/cortex-tenant.yml
 COPY --chown=65534:0 --from=builder /dist /
 
@@ -35,4 +37,4 @@ WORKDIR /data
 
 COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["/cortex-tenant"]
-CMD ["-config", "$CONFIG_PATH"]
+CMD ["-config", "/data/cortex-tenant.yml"]
